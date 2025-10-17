@@ -9,13 +9,43 @@ export default defineNuxtConfig({
     enabled: true
   },
 
+  app: {
+    head: {
+      title: '健康生活管理系统',
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'description', content: '健康生活管理系统 - 您的健康小助手' }
+      ],
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      ]
+    }
+  },
+
   css: ['~/assets/css/main.css'],
 
+  runtimeConfig: {
+    public: {
+      apiBase: '/api'
+    }
+  },
+
   routeRules: {
-    '/': { prerender: true }
+    '/login': { prerender: true }
   },
 
   compatibilityDate: '2025-01-15',
+
+  // 后端 API 代理配置
+  nitro: {
+    devProxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true
+      }
+    }
+  },
 
   eslint: {
     config: {
