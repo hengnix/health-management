@@ -37,6 +37,22 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2025-01-15',
 
+  imports: {
+    // 自动导入目录配置
+    dirs: [
+      // 默认已包含: composables/**, utils/**
+      'stores',
+      'types'
+    ]
+  },
+
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false // 不使用文件夹名作为组件名前缀
+    }
+  ],
+
   // 后端 API 代理配置
   nitro: {
     devProxy: {
