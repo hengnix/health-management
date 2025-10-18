@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import type { User, LoginRequest, RegisterRequest, ApiError } from '~/types'
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<User | null>(null)
