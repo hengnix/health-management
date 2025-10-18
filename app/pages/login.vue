@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DateValue } from '@internationalized/date'
 import type { FormSubmitEvent } from '#ui/types'
-import MD5 from 'crypto-js/md5'
+import { createHash } from 'node:crypto'
 import { z } from 'zod'
 
 definePageMeta({
@@ -94,9 +94,11 @@ function formatDateOfBirth(): string {
 
 async function onLoginSubmit(event: FormSubmitEvent<LoginSchema>) {
   try {
+    const passwordHash = createHash('md5').update(event.data.password).digest('hex')
+
     console.log('登录:', {
       email: event.data.email,
-      passwordHash: MD5(event.data.password).toString()
+      passwordHash
     })
 
     await new Promise(resolve => setTimeout(resolve, 1000))
@@ -115,10 +117,11 @@ async function onRegisterSubmit(event: FormSubmitEvent<RegisterSchema>) {
 
   try {
     const dateOfBirth = calendarValue.value ? dateValueToString(calendarValue.value) : ''
+    const passwordHash = createHash('md5').update(event.data.password).digest('hex')
 
     console.log('注册:', {
       email: event.data.email,
-      passwordHash: MD5(event.data.password).toString(),
+      passwordHash,
       nickname: event.data.nickname,
       gender: event.data.gender,
       dateOfBirth
