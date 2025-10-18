@@ -30,7 +30,7 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: '健康生活管理系统 - 您的健康小助手' }
       ],
-      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.svg' }]
     }
   },
 
