@@ -1,13 +1,9 @@
 <script setup lang="ts">
-useHead({
-  htmlAttrs: {
-    lang: 'zh-CN'
-  }
-})
+import { zh_cn } from '@nuxt/ui/locale'
 </script>
 
 <template>
-  <NuxtLayout>
+  <NuxtLayout :locale="zh_cn">
     <NuxtPage />
   </NuxtLayout>
 </template>
