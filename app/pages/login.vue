@@ -106,8 +106,13 @@ async function onLoginSubmit(event: FormSubmitEvent<LoginSchema>) {
     })
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
+
+    // 临时设置 token（开发阶段）
+    const token = useCookie('token')
+    token.value = 'dev-token-' + Date.now()
+
     toast.add({ title: '登录成功', color: 'success' })
-    navigateTo('/dashboard')
+    await navigateTo('/dashboard')
   } catch {
     toast.add({ title: '登录失败', color: 'error' })
   }
