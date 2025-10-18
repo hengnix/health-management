@@ -1,16 +1,13 @@
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
     <!-- 顶部导航栏 -->
-    <header class="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
+    <header
+      class="sticky top-0 z-50 border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-950"
+    >
       <div class="flex h-16 items-center justify-between px-6">
         <div class="flex items-center gap-3">
-          <UIcon
-            name="i-heroicons-chart-bar"
-            class="text-3xl text-primary"
-          />
-          <h1 class="text-xl font-bold">
-            健康生活管理系统
-          </h1>
+          <UIcon name="i-heroicons-chart-bar" class="text-3xl text-primary" />
+          <h1 class="text-xl font-bold">健康生活管理系统</h1>
         </div>
       </div>
     </header>
@@ -18,10 +15,12 @@
     <!-- 主体容器 -->
     <div class="flex">
       <!-- 左侧菜单栏 -->
-      <aside class="fixed left-0 top-16 bottom-0 w-64 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 overflow-y-auto">
-        <div class="p-4 space-y-6">
+      <aside
+        class="fixed top-16 bottom-0 left-0 w-64 overflow-y-auto border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-950"
+      >
+        <div class="space-y-6 p-4">
           <!-- 导航标题 -->
-          <div class="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-sm font-medium">
+          <div class="flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400">
             <UIcon name="i-heroicons-bars-3" />
             <span>导航菜单</span>
           </div>
@@ -32,19 +31,16 @@
               v-for="link in menuLinks"
               :key="link.to"
               :to="link.to"
-              class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+              class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
               active-class="bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400"
             >
-              <UIcon
-                :name="link.icon"
-                class="text-lg"
-              />
+              <UIcon :name="link.icon" class="text-lg" />
               <span>{{ link.label }}</span>
             </NuxtLink>
           </nav>
 
           <!-- 用户信息区域 -->
-          <div class="pt-4 border-t border-gray-200 dark:border-gray-800">
+          <div class="border-t border-gray-200 pt-4 dark:border-gray-800">
             <UButton
               variant="ghost"
               color="neutral"
@@ -53,16 +49,8 @@
               @click="goToProfile"
             >
               <template #leading>
-                <UAvatar
-                  v-if="userStore.avatarUrl"
-                  :src="userStore.avatarUrl"
-                  size="xs"
-                />
-                <UIcon
-                  v-else
-                  name="i-heroicons-user"
-                  class="text-lg"
-                />
+                <UAvatar v-if="userStore.avatarUrl" :src="userStore.avatarUrl" size="xs" />
+                <UIcon v-else name="i-heroicons-user" class="text-lg" />
               </template>
               {{ userStore.user?.nickname || '用户' }}
             </UButton>
@@ -71,8 +59,8 @@
       </aside>
 
       <!-- 主内容区 -->
-      <main class="flex-1 ml-64 p-6">
-        <div class="max-w-7xl mx-auto">
+      <main class="ml-64 flex-1 p-6">
+        <div class="mx-auto max-w-7xl">
           <slot />
         </div>
       </main>

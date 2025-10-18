@@ -8,9 +8,7 @@ definePageMeta({
   <div>
     <UCard>
       <template #header>
-        <h2 class="text-xl font-bold">
-          欢迎使用健康生活管理系统
-        </h2>
+        <h2 class="text-xl font-bold">欢迎使用健康生活管理系统</h2>
       </template>
 
       <div class="space-y-4">

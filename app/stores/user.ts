@@ -21,7 +21,7 @@ export const useUserStore = defineStore('user', () => {
       const jsonPayload = decodeURIComponent(
         atob(base64)
           .split('')
-          .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
           .join('')
       )
       return JSON.parse(jsonPayload)
@@ -46,7 +46,8 @@ export const useUserStore = defineStore('user', () => {
 
       const payload = parseJwt(mockToken)
       if (payload) {
-        const userIDFromToken = payload.userId || payload.userID || payload.sub || payload.id || payload.user_id
+        const userIDFromToken =
+          payload.userId || payload.userID || payload.sub || payload.id || payload.user_id
         if (userIDFromToken) {
           const userIDCookie = useCookie('userID')
           userIDCookie.value = userIDFromToken

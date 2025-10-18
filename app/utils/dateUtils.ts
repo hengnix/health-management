@@ -3,12 +3,7 @@
  */
 
 import type { DateValue } from '@internationalized/date'
-import {
-  CalendarDate,
-  parseDate,
-  today,
-  getLocalTimeZone
-} from '@internationalized/date'
+import { CalendarDate, parseDate, today, getLocalTimeZone } from '@internationalized/date'
 
 /**
  * 获取今日日期 (DateValue 类型，使用所在地时区)
@@ -34,11 +29,7 @@ export function stringToDateValue(dateString: string): DateValue {
 /**
  * 创建 CalendarDate 对象
  */
-export function createCalendarDate(
-  year: number,
-  month: number,
-  day: number
-): CalendarDate {
+export function createCalendarDate(year: number, month: number, day: number): CalendarDate {
   return new CalendarDate(year, month, day)
 }
 
@@ -76,9 +67,5 @@ export function formatShortDate(date: DateValue | string): string {
  */
 export function isTodayDateValue(date: DateValue): boolean {
   const today = getTodayDateValue()
-  return (
-    date.year === today.year
-    && date.month === today.month
-    && date.day === today.day
-  )
+  return date.year === today.year && date.month === today.month && date.day === today.day
 }

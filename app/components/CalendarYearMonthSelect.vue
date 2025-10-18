@@ -11,9 +11,26 @@ const isOpen = toRef(false)
 
 const { formatYear, formatMonth } = useCustomFormatter(placeholder)
 const { selectedMode, toggleSelectMode } = useSelectMode()
-const { displayedYear, resetDisplayedYear, changeDisplayedYear, isActiveYear, canIncreaseDisplayedYear, canDecreaseDisplayedYear } = useDisplayedYear(placeholder)
-const { displayedYearRange, resetDisplayedYearRange, changeDisplayedYearRange, canIncreaseDisplayedYearRange, canDecreaseDisplayedYearRange } = useDisplayedYearRange(displayedYear, minValue, maxValue)
-const { selectMonth, isActiveMonth, canSelectMonth } = useMonthSelect(placeholder, minValue, maxValue)
+const {
+  displayedYear,
+  resetDisplayedYear,
+  changeDisplayedYear,
+  isActiveYear,
+  canIncreaseDisplayedYear,
+  canDecreaseDisplayedYear
+} = useDisplayedYear(placeholder)
+const {
+  displayedYearRange,
+  resetDisplayedYearRange,
+  changeDisplayedYearRange,
+  canIncreaseDisplayedYearRange,
+  canDecreaseDisplayedYearRange
+} = useDisplayedYearRange(displayedYear, minValue, maxValue)
+const { selectMonth, isActiveMonth, canSelectMonth } = useMonthSelect(
+  placeholder,
+  minValue,
+  maxValue
+)
 const { selectYear, canSelectYear } = useYearSelect(displayedYear, minValue, maxValue)
 
 function handlePopoverOpen(value: boolean) {
@@ -47,7 +64,13 @@ function useCustomFormatter(placeholder: Ref<DateValue>, locale?: string) {
   })
 
   function formatYear(date: DateValue) {
-    return formatter.fullYear(toDate(date), { ...defaultFormatterOptions, era: placeholder.value.calendar.identifier === 'gregory' && date.era === 'BC' ? 'short' : undefined })
+    return formatter.fullYear(toDate(date), {
+      ...defaultFormatterOptions,
+      era:
+        placeholder.value.calendar.identifier === 'gregory' && date.era === 'BC'
+          ? 'short'
+          : undefined
+    })
   }
 
   function formatMonth(date: DateValue) {
@@ -80,7 +103,11 @@ function useSelectMode() {
 /**
  * Handle month select
  */
-function useMonthSelect(placeholder: Ref<DateValue>, minValue: Ref<DateValue | undefined>, maxValue: Ref<DateValue | undefined>) {
+function useMonthSelect(
+  placeholder: Ref<DateValue>,
+  minValue: Ref<DateValue | undefined>,
+  maxValue: Ref<DateValue | undefined>
+) {
   function selectMonth(date: DateValue) {
     placeholder.value = placeholder.value.set(date)
   }
@@ -94,8 +121,8 @@ function useMonthSelect(placeholder: Ref<DateValue>, minValue: Ref<DateValue | u
 
     if (minValue.value && maxValue.value) {
       return (
-        (isAfter(date, minValue.value) || isSameMonth(date, minValue.value))
-        && (isBefore(date, maxValue.value) || isSameMonth(date, maxValue.value))
+        (isAfter(date, minValue.value) || isSameMonth(date, minValue.value)) &&
+        (isBefore(date, maxValue.value) || isSameMonth(date, maxValue.value))
       )
     }
 
@@ -112,7 +139,11 @@ function useMonthSelect(placeholder: Ref<DateValue>, minValue: Ref<DateValue | u
 /**
  * Handle year select
  */
-function useYearSelect(displayedYear: Ref<DateValue>, minValue: Ref<DateValue | undefined>, maxValue: Ref<DateValue | undefined>) {
+function useYearSelect(
+  displayedYear: Ref<DateValue>,
+  minValue: Ref<DateValue | undefined>,
+  maxValue: Ref<DateValue | undefined>
+) {
   function selectYear(date: DateValue) {
     displayedYear.value = displayedYear.value.set({ year: date.year, era: date.era })
     toggleSelectMode('month')
@@ -123,8 +154,8 @@ function useYearSelect(displayedYear: Ref<DateValue>, minValue: Ref<DateValue | 
 
     if (minValue.value && maxValue.value) {
       return (
-        (isAfter(date, minValue.value) || isSameYear(date, minValue.value))
-        && (isBefore(date, maxValue.value) || isSameYear(date, maxValue.value))
+        (isAfter(date, minValue.value) || isSameYear(date, minValue.value)) &&
+        (isBefore(date, maxValue.value) || isSameYear(date, maxValue.value))
       )
     }
 
@@ -198,7 +229,11 @@ function useDisplayedYear(placeholder: Ref<DateValue>) {
 /**
  * Popover year-range value
  */
-function useDisplayedYearRange(displayedYear: Ref<DateValue>, minValue: Ref<DateValue | undefined>, maxValue: Ref<DateValue | undefined>) {
+function useDisplayedYearRange(
+  displayedYear: Ref<DateValue>,
+  minValue: Ref<DateValue | undefined>,
+  maxValue: Ref<DateValue | undefined>
+) {
   const yearRangeValue = shallowRef(placeholder.value)
 
   const displayedYearRange = computed(() => {
@@ -216,24 +251,37 @@ function useDisplayedYearRange(displayedYear: Ref<DateValue>, minValue: Ref<Date
    * Increase or decrease the displayed year range
    */
   function changeDisplayedYearRange(direction: 'next' | 'prev') {
-    yearRangeValue.value = direction === 'next' ? displayedYearRange.value.lastYear.add({ years: 1 }) : displayedYearRange.value.firstYear.subtract({ years: 1 })
+    yearRangeValue.value =
+      direction === 'next'
+        ? displayedYearRange.value.lastYear.add({ years: 1 })
+        : displayedYearRange.value.firstYear.subtract({ years: 1 })
   }
 
   const canDecreaseDisplayedYearRange = computed(() => {
     if (!minValue.value) return true
 
-    const prevValue = displayedYearRange.value.firstYear.subtract({ years: 1 }).set({ month: 99, day: 99 })
+    const prevValue = displayedYearRange.value.firstYear
+      .subtract({ years: 1 })
+      .set({ month: 99, day: 99 })
     return !isBefore(prevValue, minValue.value)
   })
 
   const canIncreaseDisplayedYearRange = computed(() => {
     if (!maxValue.value) return true
 
-    const nextValue = displayedYearRange.value.lastYear.add({ years: 1 }).set({ month: 99, day: 99 })
+    const nextValue = displayedYearRange.value.lastYear
+      .add({ years: 1 })
+      .set({ month: 99, day: 99 })
     return !isAfter(nextValue, maxValue.value)
   })
 
-  return { displayedYearRange, resetDisplayedYearRange, changeDisplayedYearRange, canDecreaseDisplayedYearRange, canIncreaseDisplayedYearRange }
+  return {
+    displayedYearRange,
+    resetDisplayedYearRange,
+    changeDisplayedYearRange,
+    canDecreaseDisplayedYearRange,
+    canIncreaseDisplayedYearRange
+  }
 }
 </script>
 
@@ -244,10 +292,7 @@ function useDisplayedYearRange(displayedYear: Ref<DateValue>, minValue: Ref<Date
     arrow
     @update:open="handlePopoverOpen"
   >
-    <UButton
-      color="neutral"
-      variant="ghost"
-    >
+    <UButton color="neutral" variant="ghost">
       <slot />
     </UButton>
     <template #content>
@@ -263,11 +308,7 @@ function useDisplayedYearRange(displayedYear: Ref<DateValue>, minValue: Ref<Date
             @click="changeDisplayedYear('prev')"
           />
           <UPopover :ui="{ content: 'w-fit space-y-2' }">
-            <UButton
-              color="neutral"
-              variant="ghost"
-              @click="toggleSelectMode()"
-            >
+            <UButton color="neutral" variant="ghost" @click="toggleSelectMode()">
               {{ formatYear(displayedYear) }}
             </UButton>
           </UPopover>
@@ -291,7 +332,12 @@ function useDisplayedYearRange(displayedYear: Ref<DateValue>, minValue: Ref<Date
             block
             :active="isActiveMonth(date)"
             :disabled="!canSelectMonth(date)"
-            @click="() => { selectMonth(date); isOpen = !isOpen }"
+            @click="
+              () => {
+                selectMonth(date)
+                isOpen = !isOpen
+              }
+            "
           >
             {{ formatMonth(date) }}
           </UButton>
@@ -309,12 +355,10 @@ function useDisplayedYearRange(displayedYear: Ref<DateValue>, minValue: Ref<Date
             @click="changeDisplayedYearRange('prev')"
           />
           <UPopover :ui="{ content: 'w-fit space-y-2' }">
-            <UButton
-              color="neutral"
-              variant="ghost"
-              @click="toggleSelectMode()"
-            >
-              {{ `${formatYear(displayedYearRange.firstYear)} - ${formatYear(displayedYearRange.lastYear)}` }}
+            <UButton color="neutral" variant="ghost" @click="toggleSelectMode()">
+              {{
+                `${formatYear(displayedYearRange.firstYear)} - ${formatYear(displayedYearRange.lastYear)}`
+              }}
             </UButton>
           </UPopover>
           <UButton
