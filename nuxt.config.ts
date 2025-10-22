@@ -1,6 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import type { ClientRequest } from 'http'
-
 export default defineNuxtConfig({
   modules: ['@nuxt/eslint', '@nuxt/ui'],
 
@@ -69,13 +67,13 @@ export default defineNuxtConfig({
   vite: {
     server: {
       proxy:
-        process.env.ENABLE_API_PROXY === 'true'
+        import.meta.env.ENABLE_API_PROXY === 'true'
           ? {
               '/api': {
-                target: process.env.API_TARGET || 'http://localhost:8080',
+                target: import.meta.env.API_TARGET || 'http://localhost:8080',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, ''),
-                // 排除不需要代理的路径
+
                 bypass: (req) => {
                   const path = req.url || ''
                   if (path.includes('/_nuxt_icon/')) {
@@ -83,10 +81,15 @@ export default defineNuxtConfig({
                   }
                   return null
                 },
+
                 configure: (proxy) => {
-                  proxy.on('proxyReq', (proxyReq: ClientRequest) => {
-                    // 禁用压缩，避免 Vite 代理处理 gzip 出现问题
-                    proxyReq.setHeader('Accept-Encoding', 'identity')
+                  // 禁用压缩，避免 Vite 代理处理 gzip 出现问题
+                  const proxyWithEvents = proxy as unknown as {
+                    on: (event: string, handler: (proxyReq: unknown) => void) => void
+                  }
+                  proxyWithEvents.on('proxyReq', (proxyReq: unknown) => {
+                    const req = proxyReq as { setHeader: (name: string, value: string) => void }
+                    req.setHeader('Accept-Encoding', 'identity')
                   })
                 }
               }
