@@ -34,16 +34,16 @@ const avatarFile = ref<File | null>(null)
 // 健康统计
 const healthStats = reactive({
   totalRecords: {
-    diet: 156,
-    exercise: 98,
-    body: 45
+    diet: 0,
+    exercise: 0,
+    body: 0
   },
-  activeDays: 67
+  activeDays: 0
 })
 
 // 健康目标
 const goals = reactive({
-  targetWeight: 68.0,
+  targetWeight: 70.0,
   dailyCaloriesIntake: 2000,
   dailyCaloriesBurn: 500
 })
